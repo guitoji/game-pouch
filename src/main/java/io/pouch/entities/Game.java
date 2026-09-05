@@ -33,6 +33,9 @@ public class Game {
     @Column(name = "developer", nullable = false)
     private String developer;
 
+    @Column(name = "publisher", nullable = false)
+    private String publisher;
+
     @Column(name = "release_in")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseIn;
