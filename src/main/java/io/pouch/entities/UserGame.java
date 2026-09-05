@@ -7,16 +7,21 @@ import jakarta.persistence.*;
 @Entity
 public class UserGame {
 
+/*
+    This entity is a correlation of User and Game,
+    that was created to abstract the entity game of an instance used by the User on library.
+ */
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
     @Column(name = "status")
