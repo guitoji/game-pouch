@@ -1,12 +1,11 @@
 services:
-  mysql:
-    image: mysql
+  postgres:
+    image: postgres:16.15
     ports:
-      - "3306:3306"
+      - "5432:5432"
     expose:
-      - "3306"
+      - "5432"
     environment:
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=123
-      - MYSQL_DATABASE=gamepouchdb
-      - MYSQL_ROOT_PASSWORD=123
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=gamepouchdb

@@ -5,11 +5,12 @@ import io.pouch.entities.enums.Rating;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public record GameResponse(
         String title,
         String description,
-        Category category,
+        List<Category> categories,
         String developer,
         String publisher,
         LocalDate releasedIn,

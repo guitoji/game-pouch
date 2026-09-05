@@ -25,5 +25,5 @@ public class GameController extends GeneralController{
         UUID id = gameService.save(request).getGameId();
         URI location = getHeaderLocation(id);
         return ResponseEntity.created(location).build();
-    } 
+    }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,9 +27,9 @@ public class Game {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "categories", nullable = false, columnDefinition = "varchar[]")
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private List<Category> categories;
 
     @Column(name = "developer", nullable = false)
     private String developer;
