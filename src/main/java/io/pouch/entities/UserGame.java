@@ -5,6 +5,7 @@ import io.pouch.entities.enums.Status;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "tb_user_games")
 public class UserGame {
 
 /*

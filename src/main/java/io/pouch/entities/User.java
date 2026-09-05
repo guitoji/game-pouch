@@ -22,8 +22,8 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "senha", nullable = false)
-    private String senha;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "user")
     private Set<UserGame> games;

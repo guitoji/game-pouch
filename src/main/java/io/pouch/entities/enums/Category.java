@@ -1,6 +1,6 @@
 package io.pouch.entities.enums;
 
-public enum GameCategory {
+public enum Category {
     ACTION,
     ADVENTURE,
     RPG,
