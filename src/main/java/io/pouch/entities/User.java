@@ -6,13 +6,13 @@ import lombok.Data;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "tb_users")
 @Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "userId")
+    @Column(name = "user_id", unique = true)
     private UUID userId;
 
     @Column(name = "username", unique = true, nullable = false)
