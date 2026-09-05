@@ -36,9 +36,9 @@ public class Game {
     @Column(name = "publisher", nullable = false)
     private String publisher;
 
-    @Column(name = "release_in")
+    @Column(name = "released_in")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate releaseIn;
+    private LocalDate releasedIn;
 
     @Column(name = "rating", nullable = false)
     @Enumerated(EnumType.STRING)
