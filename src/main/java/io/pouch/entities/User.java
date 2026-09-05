@@ -3,6 +3,7 @@ package io.pouch.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +24,7 @@ public class User {
 
     @Column(name = "senha", nullable = false)
     private String senha;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserGame> games;
 }
