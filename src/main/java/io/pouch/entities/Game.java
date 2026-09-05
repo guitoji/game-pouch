@@ -2,6 +2,7 @@ package io.pouch.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.pouch.entities.enums.GameCategory;
+import io.pouch.entities.enums.Rating;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Game {
     private String description;
 
     @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
     private GameCategory category;
 
     @Column(name = "developer", nullable = false)
@@ -33,6 +35,10 @@ public class Game {
     @Column(name = "release_in")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseIn;
+
+    @Column(name = "rating", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Rating rating = Rating.UNRATED;
 
     @Column(name = "price", precision = 13, scale = 2)
     private BigDecimal price;
