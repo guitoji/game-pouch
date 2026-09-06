@@ -5,6 +5,7 @@ import io.pouch.controller.dto.response.GameResponse;
 import io.pouch.controller.dto.update.GameUpdate;
 import io.pouch.entities.Game;
 import io.pouch.entities.enums.Rating;
+import io.pouch.exceptions.GameNotFoundException;
 import io.pouch.repository.GameRepository;
 import io.pouch.service.mapper.GameMapper;
 import org.springframework.data.domain.Page;
@@ -70,7 +71,7 @@ public class GameService {
     @Transactional
     public GameResponse update(String id, GameUpdate update) {
         Game game = gameRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new RuntimeException("Game not found."));
+                .orElseThrow(() -> new GameNotFoundException("Game not found."));
 
         gameMapper.update(update, game);
         return gameMapper.toResponse(gameRepository.save(game));
