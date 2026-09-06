@@ -2,6 +2,7 @@ package io.pouch.controller;
 
 import io.pouch.controller.dto.request.GameRequest;
 import io.pouch.controller.dto.response.GameResponse;
+import io.pouch.controller.dto.update.GameUpdate;
 import io.pouch.entities.enums.Category;
 import io.pouch.entities.enums.Rating;
 import io.pouch.service.GameService;
@@ -41,5 +42,10 @@ public class GameController extends GeneralController{
     ) {
         return ResponseEntity
                 .ok(gameService.search(title, developer, publisher, rating, page, pageSize));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<GameResponse> updateGame(@PathVariable String id, @RequestBody @Valid GameUpdate update) {
+        return ResponseEntity.ok(gameService.update(id, update));
     }
 }

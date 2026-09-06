@@ -18,7 +18,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "game_id", unique = true)
+    @Column(name = "game_id", unique = true, updatable = false)
     private UUID gameId;
 
     @Column(name = "title", nullable = false)

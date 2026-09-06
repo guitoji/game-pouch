@@ -2,8 +2,8 @@ package io.pouch.service;
 
 import io.pouch.controller.dto.request.GameRequest;
 import io.pouch.controller.dto.response.GameResponse;
+import io.pouch.controller.dto.update.GameUpdate;
 import io.pouch.entities.Game;
-import io.pouch.entities.enums.Category;
 import io.pouch.entities.enums.Rating;
 import io.pouch.repository.GameRepository;
 import io.pouch.service.mapper.GameMapper;
@@ -14,7 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.UUID;
 
 import static io.pouch.repository.specs.GameSpecs.*;
 
@@ -65,5 +65,14 @@ public class GameService {
         Pageable pageRequest = PageRequest.of(page, pageSize);
 
         return gameRepository.findAll(specs, pageRequest).map(gameMapper::toResponse);
+    }
+
+    @Transactional
+    public GameResponse update(String id, GameUpdate update) {
+        Game game = gameRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new RuntimeException("Game not found."));
+
+        gameMapper.update(update, game);
+        return gameMapper.toResponse(gameRepository.save(game));
     }
 }
