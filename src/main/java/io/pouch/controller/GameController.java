@@ -48,4 +48,10 @@ public class GameController extends GeneralController{
     public ResponseEntity<GameResponse> updateGame(@PathVariable String id, @RequestBody @Valid GameUpdate update) {
         return ResponseEntity.ok(gameService.update(id, update));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGame(@PathVariable String id) {
+        gameService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
