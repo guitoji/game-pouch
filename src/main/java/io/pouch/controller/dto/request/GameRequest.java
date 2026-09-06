@@ -13,7 +13,6 @@ public record GameRequest(
         String title,
         @NotBlank(message = "this field is mandatory")
         String description,
-        @NotNull(message = "this field is mandatory")
         List<Category> categories,
         @NotBlank(message = "this field is mandatory")
         String developer,
