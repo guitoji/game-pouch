@@ -3,7 +3,6 @@ package io.pouch.controller;
 import io.pouch.controller.dto.request.GameRequest;
 import io.pouch.controller.dto.response.GameResponse;
 import io.pouch.controller.dto.update.GameUpdate;
-import io.pouch.entities.enums.Category;
 import io.pouch.entities.enums.Rating;
 import io.pouch.service.GameService;
 import jakarta.validation.Valid;
@@ -53,5 +52,10 @@ public class GameController extends GeneralController{
     public ResponseEntity<Void> deleteGame(@PathVariable String id) {
         gameService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GameResponse> findGameById(@PathVariable String id) {
+        return ResponseEntity.ok(gameService.findById(id));
     }
 }

@@ -85,4 +85,13 @@ public class GameService {
 
         gameRepository.delete(game);
     }
+
+    @Transactional(readOnly = true)
+    public GameResponse findById(String id) {
+        Game game = gameRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new GameNotFoundException(
+                        "Method delete not possible, the game does not exist in the database."));
+        return gameMapper.toResponse(game);
+    }
+
 }
