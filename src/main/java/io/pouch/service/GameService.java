@@ -8,6 +8,7 @@ import io.pouch.entities.enums.Rating;
 import io.pouch.exceptions.GameNotFoundException;
 import io.pouch.repository.GameRepository;
 import io.pouch.service.mapper.GameMapper;
+import io.pouch.validation.GameValidation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,14 +25,17 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final GameMapper gameMapper;
+    private final GameValidation gameValidation;
 
-    public GameService(GameRepository gameRepository, GameMapper gameMapper) {
+    public GameService(GameRepository gameRepository, GameMapper gameMapper, GameValidation gameValidation) {
         this.gameRepository = gameRepository;
         this.gameMapper = gameMapper;
+        this.gameValidation = gameValidation;
     }
 
     @Transactional
     public Game save(GameRequest request) {
+        gameValidation.validateRequest(request);
         Game game = gameMapper.toEntity(request);
         return gameRepository.save(game);
     }
@@ -73,6 +77,8 @@ public class GameService {
         Game game = gameRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new GameNotFoundException("Game not found."));
 
+        gameValidation.validateUpdate(id, update);
+
         gameMapper.update(update, game);
         return gameMapper.toResponse(gameRepository.save(game));
     }
@@ -83,6 +89,7 @@ public class GameService {
                 .orElseThrow(() -> new GameNotFoundException(
                         "Method delete not possible, the game does not exist in the database."));
 
+        gameValidation.validateDelete(game);
         gameRepository.delete(game);
     }
 
@@ -91,6 +98,7 @@ public class GameService {
         Game game = gameRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new GameNotFoundException(
                         "Method delete not possible, the game does not exist in the database."));
+
         return gameMapper.toResponse(game);
     }
 
