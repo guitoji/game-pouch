@@ -5,7 +5,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.UUID;
 
-public class GeneralController {
+public class GenericController {
 
     URI getHeaderLocation(UUID id) {
         return ServletUriComponentsBuilder

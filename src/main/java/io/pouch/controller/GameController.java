@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/games")
-public class GameController extends GeneralController{
+public class GameController extends GenericController {
 
     private GameService gameService;
 

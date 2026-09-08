@@ -3,9 +3,13 @@ package io.pouch.entities;
 import io.pouch.entities.enums.Rating;
 import io.pouch.entities.enums.Status;
 import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user_games")
+@Data
 public class UserGame {
 
 /*
@@ -14,8 +18,9 @@ public class UserGame {
  */
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "usergame_id")
+    private UUID usergameId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
