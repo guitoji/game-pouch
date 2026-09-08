@@ -1,30 +1,40 @@
 package io.pouch.service;
 
 import io.pouch.controller.dto.request.UserGameRequest;
+import io.pouch.controller.dto.response.UserGameResponse;
 import io.pouch.entities.Game;
 import io.pouch.entities.User;
 import io.pouch.entities.UserGame;
+import io.pouch.entities.enums.Rating;
+import io.pouch.entities.enums.Status;
 import io.pouch.exceptions.GameNotFoundException;
 import io.pouch.exceptions.UserNotFoundException;
 import io.pouch.repository.GameRepository;
-import io.pouch.repository.UserRepository;
 import io.pouch.repository.UserGameRepository;
+import io.pouch.repository.UserRepository;
+import io.pouch.service.mapper.UserGameMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import static io.pouch.repository.specs.UserGameSpecs.*;
 
 @Service
 public class UserGameService {
 
-    private final UserGameRepository usergameRepository;
+    private final UserGameRepository userGameRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final UserGameMapper userGameMapper;
 
-    public UserGameService(UserGameRepository usergameRepository, UserRepository userRepository, GameRepository gameRepository) {
-        this.usergameRepository = usergameRepository;
+    public UserGameService(UserGameRepository userGameRepository, UserRepository userRepository, GameRepository gameRepository, UserGameMapper userGameMapper) {
+        this.userGameRepository = userGameRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
+        this.userGameMapper = userGameMapper;
     }
 
     @Transactional
@@ -39,6 +49,33 @@ public class UserGameService {
         usergame.setUser(user);
         usergame.setGame(game);
 
-        return usergameRepository.save(usergame);
+        return userGameRepository.save(usergame);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserGameResponse> search(
+            String title,
+            Status status,
+            Rating rating,
+            Integer page,
+            Integer pageSize
+    ) {
+        Specification<UserGame> specs = (root, query, cb) -> cb.conjunction();
+
+        if (title != null) {
+            specs = specs.and(gameTitleLike(title));
+        }
+
+        if (status != null) {
+            specs = specs.and(statusEqual(status));
+        }
+
+        if (rating != null) {
+            specs = specs.and(ratingEqual(rating));
+        }
+
+        Pageable pageRequest = PageRequest.of(page, pageSize);
+
+        return userGameRepository.findAll(specs, pageRequest).map(userGameMapper::toResponse);
     }
 }
