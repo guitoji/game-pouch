@@ -42,7 +42,7 @@ public class UserGameController extends GenericController {
         return ResponseEntity.ok(userGameService.search(title, status, rating, page, pageSize));
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserGameResponse> updateUserGame(@PathVariable String id, @RequestBody UserGameUpdate update) {
         return ResponseEntity.ok(userGameService.update(id, update));
     }
