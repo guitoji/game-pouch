@@ -2,6 +2,7 @@ package io.pouch.controller;
 
 import io.pouch.controller.dto.request.UserGameRequest;
 import io.pouch.controller.dto.response.UserGameResponse;
+import io.pouch.controller.dto.update.UserGameUpdate;
 import io.pouch.entities.UserGame;
 import io.pouch.entities.enums.Rating;
 import io.pouch.entities.enums.Status;
@@ -39,5 +40,10 @@ public class UserGameController extends GenericController {
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize
     ) {
         return ResponseEntity.ok(userGameService.search(title, status, rating, page, pageSize));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<UserGameResponse> updateUserGame(@PathVariable String id, @RequestBody UserGameUpdate update) {
+        return ResponseEntity.ok(userGameService.update(id, update));
     }
 }

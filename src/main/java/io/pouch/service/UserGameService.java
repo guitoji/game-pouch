@@ -2,12 +2,14 @@ package io.pouch.service;
 
 import io.pouch.controller.dto.request.UserGameRequest;
 import io.pouch.controller.dto.response.UserGameResponse;
+import io.pouch.controller.dto.update.UserGameUpdate;
 import io.pouch.entities.Game;
 import io.pouch.entities.User;
 import io.pouch.entities.UserGame;
 import io.pouch.entities.enums.Rating;
 import io.pouch.entities.enums.Status;
 import io.pouch.exceptions.GameNotFoundException;
+import io.pouch.exceptions.UserGameNotFoundException;
 import io.pouch.exceptions.UserNotFoundException;
 import io.pouch.repository.GameRepository;
 import io.pouch.repository.UserGameRepository;
@@ -19,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 import static io.pouch.repository.specs.UserGameSpecs.*;
 
@@ -40,10 +44,10 @@ public class UserGameService {
     @Transactional
     public UserGame save(UserGameRequest request) {
         User user  = userRepository.findById(request.userId())
-                .orElseThrow(() -> new UserNotFoundException("User not found in database."));
+                .orElseThrow(() -> new UserNotFoundException("User not found in the database."));
 
         Game game = gameRepository.findById(request.gameId())
-                .orElseThrow(() -> new GameNotFoundException("Game not found in database."));
+                .orElseThrow(() -> new GameNotFoundException("Game not found in the database."));
 
         UserGame usergame = new UserGame();
         usergame.setUser(user);
@@ -71,5 +75,15 @@ public class UserGameService {
         Pageable pageRequest = PageRequest.of(page, pageSize);
 
         return userGameRepository.findAll(specs, pageRequest).map(userGameMapper::toResponse);
+    }
+
+
+    @Transactional
+    public UserGameResponse update(String id, UserGameUpdate update) {
+        UserGame userGame = userGameRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new UserGameNotFoundException("UserGame not found in the database"));
+
+        userGameMapper.update(update, userGame);
+        return userGameMapper.toResponse(userGameRepository.save(userGame));
     }
 }
