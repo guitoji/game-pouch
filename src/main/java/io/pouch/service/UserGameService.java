@@ -82,7 +82,6 @@ public class UserGameService {
         return userGameRepository.findAll(specs, pageRequest).map(userGameMapper::toResponse);
     }
 
-
     @Transactional
     public UserGameResponse update(String id, UserGameUpdate update) {
         userGameValidation.validateUpdate(update);
@@ -102,5 +101,13 @@ public class UserGameService {
 
         userGameValidation.validateDelete(userGame);
         userGameRepository.delete(userGame);
+    }
+
+    @Transactional(readOnly = true)
+    public UserGameResponse findById(String id) {
+        UserGame userGame = userGameRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new UserGameNotFoundException("UserGame not found in the database"));
+
+        return userGameMapper.toResponse(userGame);
     }
 }

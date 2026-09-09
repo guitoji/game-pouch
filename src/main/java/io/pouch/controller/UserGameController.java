@@ -52,4 +52,9 @@ public class UserGameController extends GenericController {
         userGameService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserGameResponse> findUserGameById(@PathVariable String id) {
+        return ResponseEntity.ok(userGameService.findById(id));
+    }
 }
