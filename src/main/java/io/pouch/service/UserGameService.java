@@ -62,17 +62,11 @@ public class UserGameService {
     ) {
         Specification<UserGame> specs = (root, query, cb) -> cb.conjunction();
 
-        if (title != null) {
-            specs = specs.and(gameTitleLike(title));
-        }
+        if (title != null) specs = specs.and(gameTitleLike(title));
 
-        if (status != null) {
-            specs = specs.and(statusEqual(status));
-        }
+        if (status != null) specs = specs.and(statusEqual(status));
 
-        if (rating != null) {
-            specs = specs.and(ratingEqual(rating));
-        }
+        if (rating != null) specs = specs.and(ratingEqual(rating));
 
         Pageable pageRequest = PageRequest.of(page, pageSize);
 
