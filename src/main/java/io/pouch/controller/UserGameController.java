@@ -46,4 +46,10 @@ public class UserGameController extends GenericController {
     public ResponseEntity<UserGameResponse> updateUserGame(@PathVariable String id, @RequestBody UserGameUpdate update) {
         return ResponseEntity.ok(userGameService.update(id, update));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserGame(@PathVariable String id) {
+        userGameService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

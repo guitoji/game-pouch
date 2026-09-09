@@ -96,8 +96,7 @@ public class GameService {
     @Transactional(readOnly = true)
     public GameResponse findById(String id) {
         Game game = gameRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new GameNotFoundException(
-                        "Method delete not possible, the game does not exist in the database."));
+                .orElseThrow(() -> new GameNotFoundException("Game not found in the data base."));
 
         return gameMapper.toResponse(game);
     }

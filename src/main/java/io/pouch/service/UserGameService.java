@@ -86,4 +86,13 @@ public class UserGameService {
         userGameMapper.update(update, userGame);
         return userGameMapper.toResponse(userGameRepository.save(userGame));
     }
+
+    @Transactional
+    public void delete(String id) {
+        UserGame userGame = userGameRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new UserGameNotFoundException(
+                        "Method delete not possible, the UserGame does not exist in the database."));
+
+        userGameRepository.delete(userGame);
+    }
 }
