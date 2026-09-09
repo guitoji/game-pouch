@@ -33,9 +33,27 @@ public class GlobalExceptionHandler {
         return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), e.getMessage(), List.of());
     }
 
+    @ExceptionHandler(WishingStatusNonAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorNotice handleWishingStatusNonAvailableException(WishingStatusNonAvailableException e) {
+        return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(DeleteWhenExceedHoursPlayedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ErrorNotice handleDeleteWhenExceedHoursPlayedException(DeleteWhenExceedHoursPlayedException e) {
+        return new ErrorNotice(HttpStatus.BAD_REQUEST.value(), e.getMessage(), List.of());
+    }
+
     @ExceptionHandler(DuplicateGameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     ErrorNotice handleDuplicateGameException(DuplicateGameException e) {
+        return new ErrorNotice(HttpStatus.CONFLICT.value(), e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(DuplicateUserGameException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    ErrorNotice handleDuplicateUserGameException(DuplicateUserGameException e) {
         return new ErrorNotice(HttpStatus.CONFLICT.value(), e.getMessage(), List.of());
     }
 

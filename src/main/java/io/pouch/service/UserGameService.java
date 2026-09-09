@@ -15,6 +15,7 @@ import io.pouch.repository.GameRepository;
 import io.pouch.repository.UserGameRepository;
 import io.pouch.repository.UserRepository;
 import io.pouch.service.mapper.UserGameMapper;
+import io.pouch.validation.UserGameValidation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,15 +31,17 @@ import static io.pouch.repository.specs.UserGameSpecs.*;
 public class UserGameService {
 
     private final UserGameRepository userGameRepository;
+    private final UserGameMapper userGameMapper;
+    private final UserGameValidation userGameValidation;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
-    private final UserGameMapper userGameMapper;
 
-    public UserGameService(UserGameRepository userGameRepository, UserRepository userRepository, GameRepository gameRepository, UserGameMapper userGameMapper) {
+    public UserGameService(UserGameRepository userGameRepository, UserRepository userRepository, GameRepository gameRepository, UserGameMapper userGameMapper, UserGameValidation userGameValidation) {
         this.userGameRepository = userGameRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
         this.userGameMapper = userGameMapper;
+        this.userGameValidation = userGameValidation;
     }
 
     @Transactional
@@ -48,6 +51,8 @@ public class UserGameService {
 
         Game game = gameRepository.findById(request.gameId())
                 .orElseThrow(() -> new GameNotFoundException("Game not found in the database."));
+
+        userGameValidation.validateSave(game, user);
 
         UserGame usergame = new UserGame();
         usergame.setUser(user);
@@ -80,6 +85,8 @@ public class UserGameService {
 
     @Transactional
     public UserGameResponse update(String id, UserGameUpdate update) {
+        userGameValidation.validateUpdate(update);
+
         UserGame userGame = userGameRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new UserGameNotFoundException("UserGame not found in the database"));
 
@@ -93,6 +100,7 @@ public class UserGameService {
                 .orElseThrow(() -> new UserGameNotFoundException(
                         "Method delete not possible, the UserGame does not exist in the database."));
 
+        userGameValidation.validateDelete(userGame);
         userGameRepository.delete(userGame);
     }
 }
