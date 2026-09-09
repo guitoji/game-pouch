@@ -2,9 +2,7 @@ package io.pouch.common;
 
 import io.pouch.controller.dto.error.ErrorField;
 import io.pouch.controller.dto.error.ErrorNotice;
-import io.pouch.exceptions.DeleteReleasedGameException;
-import io.pouch.exceptions.DuplicateGameException;
-import io.pouch.exceptions.GameNotFoundException;
+import io.pouch.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,6 +42,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErrorNotice handleGameNotFoundException(GameNotFoundException e) {
+        return new ErrorNotice(HttpStatus.NOT_FOUND.value(), e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(UserGameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ErrorNotice handlerUserGameNotFoundException(UserGameNotFoundException e) {
+        return new ErrorNotice(HttpStatus.NOT_FOUND.value(), e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ErrorNotice handlerUserNotFoundException(UserNotFoundException e) {
         return new ErrorNotice(HttpStatus.NOT_FOUND.value(), e.getMessage(), List.of());
     }
 }
