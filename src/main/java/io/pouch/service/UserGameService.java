@@ -82,6 +82,7 @@ public class UserGameService {
         return userGameRepository.findAll(specs, pageRequest).map(userGameMapper::toResponse);
     }
 
+    //UPDATE will be refactored later, if hours_played > 0 : will automatically change the status to 'PLAYING'
     @Transactional
     public UserGameResponse update(String id, UserGameUpdate update) {
         userGameValidation.validateUpdate(update);
