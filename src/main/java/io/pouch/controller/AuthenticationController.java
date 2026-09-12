@@ -1,5 +1,7 @@
-package io.pouch.security;
+package io.pouch.controller;
 
+import io.pouch.service.AuthenticationService;
+import io.pouch.controller.dto.response.TokenResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;

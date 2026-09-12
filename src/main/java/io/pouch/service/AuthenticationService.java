@@ -1,5 +1,6 @@
-package io.pouch.security;
+package io.pouch.service;
 
+import io.pouch.controller.dto.response.TokenResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

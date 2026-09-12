@@ -1,4 +1,4 @@
-package io.pouch.security;
+package io.pouch.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
