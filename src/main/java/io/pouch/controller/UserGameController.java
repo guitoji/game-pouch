@@ -10,6 +10,7 @@ import io.pouch.service.UserGameService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -25,6 +26,7 @@ public class UserGameController extends GenericController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Void> createUserGame(@RequestBody @Valid UserGameRequest request) {
         UserGame userGame = userGameService.save(request);
         URI location = getHeaderLocation(userGame.getUsergameId());
@@ -32,6 +34,7 @@ public class UserGameController extends GenericController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Page<UserGameResponse>> searchUserGame(
             @RequestParam(name = "title", required = false) String title,
             @RequestParam(name = "status", required = false) Status status,
@@ -43,17 +46,20 @@ public class UserGameController extends GenericController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<UserGameResponse> updateUserGame(@PathVariable String id, @RequestBody UserGameUpdate update) {
         return ResponseEntity.ok(userGameService.update(id, update));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('USER', 'MANAGER')")
     public ResponseEntity<Void> deleteUserGame(@PathVariable String id) {
         userGameService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<UserGameResponse> findUserGameById(@PathVariable String id) {
         return ResponseEntity.ok(userGameService.findById(id));
     }
