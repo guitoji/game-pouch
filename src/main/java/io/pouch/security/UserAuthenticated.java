@@ -18,7 +18,7 @@ public class UserAuthenticated implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of((GrantedAuthority) user.getRole());
+        return user.getRoles();
     }
 
     @Override

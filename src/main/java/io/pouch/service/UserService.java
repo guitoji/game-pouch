@@ -31,7 +31,7 @@ public class UserService {
         var defaultRole = roleRepository.findByName(Role.Values.USER.name());
 
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setRole(Set.of(defaultRole));
+        user.setRoles(Set.of(defaultRole));
 
         return userRepository.save(user);
     }

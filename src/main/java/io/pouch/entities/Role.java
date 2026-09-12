@@ -2,11 +2,13 @@ package io.pouch.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "tb_roles")
 @Data
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +32,10 @@ public class Role {
         public long getRoleId() {
             return roleId;
         }
+    }
+
+    @Override
+    public @Nullable String getAuthority() {
+        return name;
     }
 }
