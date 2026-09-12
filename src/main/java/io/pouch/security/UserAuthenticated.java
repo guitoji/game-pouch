@@ -18,7 +18,10 @@ public class UserAuthenticated implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles();
+        return user.getRoles()
+                .stream()
+                .map(role -> (GrantedAuthority) role::getName)
+                .toList();
     }
 
     @Override
