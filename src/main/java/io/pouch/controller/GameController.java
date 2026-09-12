@@ -25,7 +25,7 @@ public class GameController extends GenericController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ENTERPRISE', 'INDIE_CREATOR')")
+    @PreAuthorize("hasAnyAuthority('PUBLISHER', 'INDIE_CREATOR')")
     public ResponseEntity<Void> createGame(@RequestBody @Valid GameRequest request) {
         UUID id = gameService.save(request).getGameId();
         URI location = getHeaderLocation(id);
@@ -33,7 +33,7 @@ public class GameController extends GenericController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('USER', 'DEV', 'MANAGER', 'ENTERPRISE', 'INDIE_CREATOR')")
+    @PreAuthorize("hasAnyAuthority('USER', 'MANAGER', 'PUBLISHER', 'INDIE_CREATOR')")
     public ResponseEntity<Page<GameResponse>> searchGame(
             @RequestParam(name = "title", required = false) String title,
             @RequestParam(name = "developer", required = false) String developer,
@@ -47,20 +47,20 @@ public class GameController extends GenericController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ENTERPRISE', 'INDIE_CREATOR')")
+    @PreAuthorize("hasAnyAuthority('PUBLISHER', 'INDIE_CREATOR')")
     public ResponseEntity<GameResponse> updateGame(@PathVariable String id, @RequestBody @Valid GameUpdate update) {
         return ResponseEntity.ok(gameService.update(id, update));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAllAuthorities('MANAGER', 'DEV')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<Void> deleteGame(@PathVariable String id) {
         gameService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('MANAGER', 'DEV')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<GameResponse> findGameById(@PathVariable String id) {
         return ResponseEntity.ok(gameService.findById(id));
     }

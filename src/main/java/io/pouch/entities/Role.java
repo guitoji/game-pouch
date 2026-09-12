@@ -20,10 +20,9 @@ public class Role implements GrantedAuthority {
 
     public enum Values {
         MANAGER(1L),
-        DEV(2L),
-        ENTERPRISE(3L),
-        INDIE_CREATOR(4L),
-        USER(5L);
+        PUBLISHER(2L),
+        INDIE_CREATOR(3L),
+        USER(4L);
 
         long roleId;
 

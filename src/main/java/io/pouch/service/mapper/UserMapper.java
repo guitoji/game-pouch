@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 public interface UserMapper {
 
     @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     @Mapping(target = "games", ignore = true)
     User toEntity(UserRequest request);
 }
